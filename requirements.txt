@@ -1,0 +1,7 @@
+google-genai==1.73.1
+gTTS==2.5.4
+load-dotenv==0.1.0
+PyAudio==0.2.14
+python-dotenv==1.2.2
+SpeechRecognition==3.16.0
+vosk==0.3.44
