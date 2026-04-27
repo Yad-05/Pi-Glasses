@@ -23,6 +23,7 @@ def capture():
             stderr=subprocess.DEVNULL,
             stdout=subprocess.DEVNULL
         )
+        print("Image captured.")
         return str(image_path)
     
     except subprocess.CalledProcessError:
