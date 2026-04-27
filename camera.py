@@ -18,7 +18,7 @@ def capture():
         # -t 1000 (1 second camera warm up time)
         # -o (output file path)
         subprocess.run(
-            ["rpicam-jepg", "-n", "-t", "1000", "-o", str(image_path)],
+            ["rpicam-jpeg", "-n", "-t", "1000", "-o", str(image_path)],
             check=True,
             stderr=subprocess.DEVNULL,
             stdout=subprocess.DEVNULL
