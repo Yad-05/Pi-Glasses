@@ -3,14 +3,14 @@ import subprocess
 import datetime
 
 def capture():
-    base_dir = Path(__file__).resolve().parent.parent
-    images_dir = base_dir / "captured_images"
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    IMAGES_DIR = BASE_DIR / "captured_images"
 
     # creates the images directory if not already available
-    images_dir.mkdir(exist_ok=True)
+    IMAGES_DIR.mkdir(exist_ok=True)
 
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    image_path = images_dir / f"{timestamp}_captured_image.jpg"
+    image_path = IMAGES_DIR / f"{timestamp}_captured_image.jpg"
 
     try:
         print("Capturing image...")
