@@ -27,7 +27,7 @@ def capture():
         return str(image_path)
     
     except subprocess.CalledProcessError:
-        print("Fialed to capture image with 'rpicam-jepg'.")
+        print("Failed to capture image with 'rpicam-jepg'.")
         return None
     except FileNotFoundError:
         print("System Error: 'rpicam-jpeg' command not found. If you're running on Raspberry Pi, Please install 'rpicam-jpeg' by running: \n" \
