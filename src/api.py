@@ -16,7 +16,7 @@ class APIEngine:
         print("\nInitializing API connection...")
         self.client = genai.Client(api_key=self.api_key)
         glasses_config = types.GenerateContentConfig(
-            system_instruction="You are a smart AI assistant built into a pair of glasses. Always keep your responses to a one or two, brief sentence so the user doesn't have to listen to long audio playbacks."
+            system_instruction="You are an assistant built into a pair of glasses. Always keep your responses to a one or two, brief sentence so the user doesn't have to listen to long audio playbacks. Never use conversational openings or closings."
         )
         self.chat = self.client.chats.create(model="gemini-3-flash-preview", config=glasses_config)
 
