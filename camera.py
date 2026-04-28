@@ -4,7 +4,7 @@ import datetime
 
 def capture():
     base_dir = Path(__file__).parent.absolute()
-    images_dir = base_dir / "images"
+    images_dir = base_dir / "captured_images"
 
     # creates the images directory if not already available
     images_dir.mkdir(exist_ok=True)
