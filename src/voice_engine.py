@@ -23,13 +23,13 @@ def speak(text):
         tts = gTTS(text=text, lang="en", slow=False)
         tts.save("response.mp3")
 
+        print(text)
         subprocess.run(
             ["mpg123", "-q", "response.mp3"],
             check=True,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL
         )
-        print(text)
         os.remove("response.mp3")
     except Exception as e:
         print(f"Audio Error: {e}")
@@ -68,7 +68,7 @@ def wake_word():
     wake_recognizer = vosk.KaldiRecognizer(model, 16000, grammer)
     p = pyaudio.PyAudio()
 
-    print("Wake word detection online. Waiting to hear 'Hey Pi'...")
+    print("\nWake word detection online. Waiting to hear 'Hey Pi'...")
 
     try:
         play_sound("prompt_sound.mp3")
