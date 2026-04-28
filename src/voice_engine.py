@@ -1,8 +1,20 @@
+from pathlib import Path
 from gtts import gTTS
-import subprocess, os
+import subprocess 
+import os
+import vosk
+import pyaudio
+import json
 import speech_recognition as sr
 
 MIC_INDEX = 1
+BASE_DIR = Path(__file__).resolve().parent.parent
+MODEL_PATH = BASE_DIR / "lang_model"
+PROMPT_SOUND_PATH = BASE_DIR /"assets" / "audio" / "prompt_sound.mp3"
+
+model = vosk.Model(str(MODEL_PATH))
+# vosk only listens for these sounds, increasing accuracy and performance
+grammer = '["hey pie", "hey pi", "[unk]"]' 
 
 # text to speech
 def speak(text):
@@ -49,3 +61,50 @@ def listen():
     except sr.RequestError as e:
         print(f"Speech recognition failed. Error: {e}")
         return None
+    
+
+def wake_word():
+    wake_recognizer = vosk.KaldiRecognizer(model, 16000, grammer)
+    p = pyaudio.PyAudio()
+
+    print("Wake word detection online. Waiting to hear 'Hey Pi'...")
+
+    try:
+        subprocess.run(
+            ["mpg123", "-q", str(PROMPT_SOUND_PATH)],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e}")
+    except FileNotFoundError:
+        print("Sound file not found, skipping chime.")
+
+    while True:
+        stream = p.open(
+            format=pyaudio.paInt16,
+            channels=1,
+            rate=16000,
+            input=True,
+            input_device_index=MIC_INDEX,
+            frames_per_buffer=8000
+        )
+
+        try:
+            while True:
+                data = stream.read(4000, exception_on_overflow=False)
+                if wake_recognizer.AcceptWaveform(data):
+                    result = json.loads(wake_recognizer.Result())
+                    text = result.get("text", "")
+
+                    # checking custom wake word
+                    if "hey pie" in text or "hey pi" in text:
+                        print(f"\nWake word detected. (Vosk heard: {text})")
+                        break
+        finally:
+            stream.stop_stream()
+            stream.close()
+        
+        speak("Yes?")
+        return
