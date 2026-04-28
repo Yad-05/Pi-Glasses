@@ -1,5 +1,6 @@
 from pathlib import Path
 from gtts import gTTS
+from utils import play_sound
 import subprocess 
 import os
 import vosk
@@ -25,8 +26,8 @@ def speak(text):
         subprocess.run(
             ["mpg123", "-q", "response.mp3"],
             check=True,
-            stderr=subprocess.DEVNULL,
-            stdout=subprocess.DEVNULL
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
         )
         print(text)
         os.remove("response.mp3")
@@ -70,12 +71,7 @@ def wake_word():
     print("Wake word detection online. Waiting to hear 'Hey Pi'...")
 
     try:
-        subprocess.run(
-            ["mpg123", "-q", str(PROMPT_SOUND_PATH)],
-            check=True,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL
-        )
+        play_sound("prompt_sound.mp3")
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
     except FileNotFoundError:
