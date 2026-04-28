@@ -3,7 +3,7 @@ import subprocess
 import datetime
 
 def capture():
-    base_dir = Path(__file__).parent.absolute()
+    base_dir = Path(__file__).resolve().parent.parent
     images_dir = base_dir / "captured_images"
 
     # creates the images directory if not already available
