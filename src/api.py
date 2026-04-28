@@ -1,5 +1,6 @@
 import os
 from google import genai
+from google.genai import types
 from dotenv import load_dotenv
 
 class APIEngine:
@@ -12,8 +13,12 @@ class APIEngine:
             raise ValueError("MY_API_KEY is not set. Please check your.env file.")
         
         # initializing client and chat session
+        print("\nInitializing API connection...")
         self.client = genai.Client(api_key=self.api_key)
-        self.chat = self.client.chats.create(model="gemini-3-flash-preview")
+        glasses_config = types.GenerateContentConfig(
+            system_instruction="You are a smart AI assistant built into a pair of glasses. Always keep your responses to a one or two, brief sentence so the user doesn't have to listen to long audio playbacks."
+        )
+        self.chat = self.client.chats.create(model="gemini-3-flash-preview", config=glasses_config)
 
     def ask(self, prompt, image_path=None):
         try:
