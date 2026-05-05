@@ -23,7 +23,7 @@ def speak(text):
         tts = gTTS(text=text, lang="en", slow=False)
         tts.save("response.mp3")
 
-        print(text)
+        print(f"Response: {text}")
         subprocess.run(
             ["mpg123", "-q", "response.mp3"],
             check=True,
@@ -54,7 +54,7 @@ def listen():
         # convert raw audio data to text
         text = recognizer.recognize_google(audio)
         text = text.lower()
-        print(f"You said: {text}")
+        print(f"Prompt: {text}")
         return text
     except sr.UnknownValueError:
         print("Speech was uncleaer. Please try again.")

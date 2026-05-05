@@ -28,7 +28,6 @@ def main():
 
         if user_input is None:
             response = "Didn't catch that, please repeat."
-            print(response)
             speak(response)
             continue
         
@@ -60,7 +59,6 @@ def main():
         else:
             response = ai.ask(final_prompt)
 
-        print(f"Response: {response}")
         speak(response)
 
 if __name__ == "__main__":
