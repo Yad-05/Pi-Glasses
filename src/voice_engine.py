@@ -96,7 +96,7 @@ def wake_word():
 
                     # checking custom wake word
                     if "hey pie" in text or "hey pi" in text:
-                        print(f"\nWake word detected. (Vosk heard: {text})")
+                        print(f"\nWake word detected. (Vosk heard: Hey Pi)")
                         break
         finally:
             stream.stop_stream()
