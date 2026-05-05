@@ -31,7 +31,7 @@ def main():
             speak(response)
             continue
         
-        if user_input == "exit":
+        if user_input == "quit":
             speak("Goodbye. Have a great day.")
             play_sound("power_off_sound.mp3")
             break
