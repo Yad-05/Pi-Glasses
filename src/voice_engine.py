@@ -76,7 +76,7 @@ def listen():
     
 
 def wake_word():
-    wake_recognizer = vosk.KaldiRecognizer(model, 16000, grammer)
+    wake_recognizer = vosk.KaldiRecognizer(model, 48000, grammer)
     p = pyaudio.PyAudio()
 
     print("\nWake word detection online. Waiting to hear 'Hey Pi'...")
@@ -98,7 +98,7 @@ def wake_word():
         stream = p.open(
             format=pyaudio.paInt16,
             channels=1,
-            rate=16000,
+            rate=48000,
             input=True,
             input_device_index=MIC_INDEX,
             frames_per_buffer=8000
