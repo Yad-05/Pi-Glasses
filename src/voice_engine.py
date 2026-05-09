@@ -53,7 +53,8 @@ def listen():
         recognizer.adjust_for_ambient_noise(source, duration=0.5)
 
         if mute_switch.is_pressed:
-            return None
+            return 'Mic is muted.'
+        
         try:
             # listening for input
             audio = recognizer.listen(source, timeout=10, phrase_time_limit=15)
