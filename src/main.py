@@ -42,7 +42,7 @@ def main():
             break
 
         if user_input == "shut down":
-            speak("Shutting down Pie Glasses.")
+            speak("Shutting down Pi Glasses.")
             play_sound("power_off_sound.mp3")
             try:
                 subprocess.run(["sudo", "shutdown", "-h", "now"], check=True)
