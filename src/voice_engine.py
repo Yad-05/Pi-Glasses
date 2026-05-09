@@ -43,6 +43,7 @@ def speak(text):
 def listen():
 
     if mute_switch.is_pressed:
+        print("Mic is muted.")
         return None
     
     recognizer = sr.Recognizer()
@@ -91,6 +92,7 @@ def wake_word():
     while True:
 
         if mute_switch.is_pressed:
+            print("Mic is muted.")
             time.sleep(1)
             continue
 
@@ -107,9 +109,9 @@ def wake_word():
             while True:
 
                 if mute_switch.is_pressed:
-                    print("\n[Hardware Mute Activated]")
+                    print("\nMic is muted.")
                     break
-                
+
                 data = stream.read(4000, exception_on_overflow=False)
                 if wake_recognizer.AcceptWaveform(data):
                     result = json.loads(wake_recognizer.Result())
