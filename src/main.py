@@ -26,6 +26,11 @@ def main():
         user_input = listen()
         play_sound("prompt_sound.mp3")
 
+        if user_input == 'Mic is muted.':
+            print(user_input)
+            speak(user_input)
+            continue
+
         if user_input is None:
             response = "Didn't catch that, please repeat."
             speak(response)

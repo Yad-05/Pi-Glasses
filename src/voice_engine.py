@@ -43,8 +43,7 @@ def speak(text):
 def listen():
 
     if mute_switch.is_pressed:
-        print("Mic is muted.")
-        return None
+        return 'Mic is muted.'
     
     recognizer = sr.Recognizer()
 
