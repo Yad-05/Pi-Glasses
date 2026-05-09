@@ -7,6 +7,8 @@ import vosk
 import pyaudio
 import json
 import speech_recognition as sr
+import time
+from gpiozero import Button
 
 MIC_INDEX = 1
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -16,6 +18,8 @@ PROMPT_SOUND_PATH = BASE_DIR /"assets" / "audio" / "prompt_sound.mp3"
 model = vosk.Model(str(MODEL_PATH))
 # vosk only listens for these sounds, increasing accuracy and performance
 grammer = '["hey pie", "hey pi", "[unk]"]' 
+
+mute_switch = Button(17, pull_up=True)
 
 # text to speech
 def speak(text):
@@ -37,12 +41,19 @@ def speak(text):
 
 # speech to text
 def listen():
+
+    if mute_switch.is_pressed:
+        return None
+    
     recognizer = sr.Recognizer()
 
     # open the desired microphone
     with sr.Microphone(device_index=MIC_INDEX) as source:
         print("Listening for your prompt...")
         recognizer.adjust_for_ambient_noise(source, duration=0.5)
+
+        if mute_switch.is_pressed:
+            return None
         try:
             # listening for input
             audio = recognizer.listen(source, timeout=10, phrase_time_limit=15)
@@ -78,6 +89,11 @@ def wake_word():
         print("Sound file not found, skipping chime.")
 
     while True:
+
+        if mute_switch.is_pressed:
+            time.sleep(1)
+            continue
+
         stream = p.open(
             format=pyaudio.paInt16,
             channels=1,
@@ -89,6 +105,11 @@ def wake_word():
 
         try:
             while True:
+
+                if mute_switch.is_pressed:
+                    print("\n[Hardware Mute Activated]")
+                    break
+                
                 data = stream.read(4000, exception_on_overflow=False)
                 if wake_recognizer.AcceptWaveform(data):
                     result = json.loads(wake_recognizer.Result())
