@@ -106,6 +106,7 @@ def wake_word():
         )
 
         try:
+            wake_detected = False
             while True:
 
                 if mute_switch.is_pressed:
@@ -120,10 +121,12 @@ def wake_word():
                     # checking custom wake word
                     if "hey pie" in text or "hey pi" in text:
                         print(f"\nWake word detected. (Vosk heard: Hey Pi)")
+                        wake_detected = True
                         break
         finally:
             stream.stop_stream()
             stream.close()
         
-        speak("Yes?")
-        return
+        if wake_detected:
+            speak("Yes?")
+            return

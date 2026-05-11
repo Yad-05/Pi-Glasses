@@ -1,13 +1,9 @@
 import subprocess
 from utils import play_sound
 from camera import capture
-from voice_engine import speak, listen, wake_word
+from voice_engine import speak, listen, wake_word, mute_switch
 from api import APIEngine
 import time
-from gpiozero import Button
-
-mute_switch = Button(17, pull_up=True)
-
 
 def main():
     ai = APIEngine()
