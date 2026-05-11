@@ -3,6 +3,10 @@ from utils import play_sound
 from camera import capture
 from voice_engine import speak, listen, wake_word
 from api import APIEngine
+import time
+from gpiozero import Button
+
+mute_switch = Button(17, pull_up=True)
 
 
 def main():
@@ -21,6 +25,11 @@ def main():
     play_sound("startup_sound_1.mp3")
 
     while True:
+        if mute_switch.is_pressed:
+            print("Mic is muted.")
+            time.sleep(1)
+            continue
+
         wake_word()
 
         user_input = listen()
