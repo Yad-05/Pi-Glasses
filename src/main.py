@@ -33,7 +33,6 @@ def main():
 
         if user_input == 'Mic is muted.':
             print(user_input)
-            speak(user_input)
             continue
 
         if user_input is None:
