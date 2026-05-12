@@ -1,6 +1,7 @@
 from pathlib import Path
 import subprocess
 import datetime
+from utils import play_sound
 
 def capture():
     BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,6 +25,7 @@ def capture():
             stdout=subprocess.DEVNULL
         )
         print("Image captured.")
+        play_sound("camera_capture.mp3")
         return str(image_path)
     
     except subprocess.CalledProcessError:
