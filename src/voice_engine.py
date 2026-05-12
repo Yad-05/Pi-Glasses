@@ -5,15 +5,17 @@ import subprocess
 import os
 import vosk
 import pyaudio
+import pygame
 import json
 import speech_recognition as sr
 import time
 from gpiozero import Button
 
+pygame.mixer.init()
+
 MIC_INDEX = 1
 BASE_DIR = Path(__file__).resolve().parent.parent
 MODEL_PATH = BASE_DIR / "lang_model"
-PROMPT_SOUND_PATH = BASE_DIR /"assets" / "audio" / "prompt_sound.mp3"
 
 model = vosk.Model(str(MODEL_PATH))
 # vosk only listens for these sounds, increasing accuracy and performance
@@ -28,12 +30,12 @@ def speak(text):
         tts.save("response.mp3")
 
         print(f"Response: {text}")
-        subprocess.run(
-            ["mpg123", "-q", "response.mp3"],
-            check=True,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL
-        )
+        pygame.mixer.music.load("response.mp3")
+        pygame.mixer.music.play()
+        while pygame.mixer.music.get_busy():
+            pygame.time.Clock().tick(10)
+        
+        pygame.mixer.music.unload()
         os.remove("response.mp3")
     except Exception as e:
         print(f"Audio Error: {e}")
@@ -84,8 +86,8 @@ def wake_word():
 
     try:
         play_sound("prompt_sound.mp3")
-    except subprocess.CalledProcessError as e:
-        print(f"Error: {e}")
+    except pygame.error as e:
+        print(f"Pygame Error: {e}")
     except FileNotFoundError:
         print("Sound file not found, skipping chime.")
 
