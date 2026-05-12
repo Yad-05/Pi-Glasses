@@ -29,7 +29,7 @@ def main():
         wake_word()
 
         user_input = listen()
-        play_sound("prompt_sound.mp3")
+        play_sound("correct-bell-twinkle.mp3")
 
         if user_input == 'Mic is muted.':
             print(user_input)
